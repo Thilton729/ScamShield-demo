@@ -17,16 +17,36 @@ if _DOTENV.exists():
 
 BACKEND_URL = os.environ.get("BACKEND_URL", "http://localhost:8000").rstrip("/")
 ANALYZE_URL = f"{BACKEND_URL}/analyze"
+DEMO_MODE = os.environ.get("DEMO_MODE", "true").lower() in ("true", "1", "yes")
 
 CHANNELS = ["SMS", "Email", "Messaging"]
 CHANNEL_TO_API = {"SMS": "sms", "Email": "email", "Messaging": "messaging"}
+
+# Example messages for demos (scam, safe, edge)
+DEMO_EXAMPLES = [
+    ("Scam — urgency + link", "Your account will be suspended in 24 hours. Click here to verify your identity immediately."),
+    ("Safe — routine", "Reminder: Team meeting tomorrow at 10am. Thanks for the invoice, we'll process it today."),
+    ("Edge — phishing language", "Winner! You've been selected for a prize. Wire transfer required to claim. Reply with your password to confirm."),
+]
+
+if "message_input" not in st.session_state:
+    st.session_state["message_input"] = ""
 
 st.set_page_config(page_title="ScamShield Demo", page_icon="🛡️", layout="centered")
 st.title("🛡️ ScamShield")
 st.caption("Scam & phishing detection across SMS, email, and messaging")
 
+if DEMO_MODE:
+    st.info("Running in **demo mode** — using mock responses. No API keys required.")
+
+with st.expander("Try these examples"):
+    for label, text in DEMO_EXAMPLES:
+        if st.button(f"Use: {label}", key=f"ex_{label[:10]}"):
+            st.session_state["message_input"] = text
+            st.rerun()
+
 channel = st.selectbox("Channel", CHANNELS, index=0)
-message = st.text_area("Message", placeholder="Paste or type the message to analyze...", height=120)
+message = st.text_area("Message", placeholder="Paste or type the message to analyze...", height=120, key="message_input")
 
 if st.button("Analyze", type="primary"):
     if not message or not message.strip():
