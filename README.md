@@ -26,14 +26,12 @@ Copy `.env.example` to `.env` in the repo root. All behavior is driven by enviro
 
 ## Documentation
 
-- **Product scope and boundaries** — [docs/PRODUCT_SCOPE.md](docs/PRODUCT_SCOPE.md) (in scope vs out of scope for this demo).
 - **Architecture** — [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) (API, router, UI, data flow).
-- **7-day build plan** — [docs/BUILD_PLAN.md](docs/BUILD_PLAN.md) (solo-founder week plan and checklist).
 - **API reference** — Run the backend and open `/docs` (Swagger UI) for request/response schemas and to try `POST /analyze`.
 
 ## Repo layout
 
 - `backend/` — FastAPI API and AI routing (mock + optional LLM).
 - `frontend/` — Streamlit UI.
-- `docs/` — Product scope and architecture.
+- `docs/` — Architecture and design.
 - `scripts/` — Startup scripts for Codespaces.
